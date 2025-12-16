@@ -2,6 +2,11 @@
 Changelog for package clearpath_generator_gz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added OusterOS1 to param generator (`#96 <https://github.com/clearpathrobotics/clearpath_simulator/issues/96>`_)
+* Contributors: Roni Kreinin
+
 2.7.0 (2025-08-25)
 ------------------
 
