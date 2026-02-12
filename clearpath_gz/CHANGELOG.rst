@@ -2,6 +2,13 @@
 Changelog for package clearpath_gz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update cmake version to 3.20 (`#100 <https://github.com/clearpathrobotics/clearpath_simulator/issues/100>`_)
+* Rename node from 'generate_launch' to 'generate_param' (`#97 <https://github.com/clearpathrobotics/clearpath_simulator/issues/97>`_)
+  Fix copy-paste issue when naming the generate_param node
+* Contributors: Andrei Costinescu, luis-camero
+
 2.7.1 (2025-12-16)
 ------------------
 
