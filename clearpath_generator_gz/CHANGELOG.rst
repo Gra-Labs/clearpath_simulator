@@ -2,8 +2,8 @@
 Changelog for package clearpath_generator_gz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.9.0 (2026-02-11)
+------------------
 * Update cmake version to 3.20 (`#100 <https://github.com/clearpathrobotics/clearpath_simulator/issues/100>`_)
 * Add SeyondLidar support in sensors.py (param generator) (`#98 <https://github.com/clearpathrobotics/clearpath_simulator/issues/98>`_)
   * Add SeyondLidar support in sensors.py (param generator)
