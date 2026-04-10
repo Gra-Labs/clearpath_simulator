@@ -32,6 +32,8 @@
 # modification, is not permitted without the express permission
 # of Clearpath Robotics.
 
+import os
+
 from clearpath_config.common.types.platform import Platform
 from clearpath_config.sensors.types.gps import Garmin18x
 from clearpath_config.sensors.types.imu import BaseIMU
@@ -50,18 +52,22 @@ PLATFORMS = {
     Platform.DO150: {'imu': True, 'gps': False},
     Platform.R100: {'imu': True, 'gps': False},
     Platform.W200: {'imu': True, 'gps': False},
+    Platform.GENERIC: {'imu': False, 'gps': False},
 }
 
 
 class GzParamGenerator(ParamGenerator):
 
     def generate_sensors(self) -> None:
-        for sensor in self.clearpath_config.sensors.get_all_sensors():
-            sensor_param = SensorParam(
-                sensor,
-                self.clearpath_config.get_namespace(),
-                self.sensors_params_path)
-            sensor_param.generate_config()
+        sensors = self.clearpath_config.sensors.get_all_sensors()
+        if sensors:
+            os.makedirs(self.sensors_params_path, exist_ok=True)
+            for sensor in sensors:
+                sensor_param = SensorParam(
+                    sensor,
+                    self.clearpath_config.get_namespace(),
+                    self.sensors_params_path)
+                sensor_param.generate_config()
 
     def generate_platform(self) -> None:
         for param in PlatformParam.PARAMETERS:
@@ -72,6 +78,7 @@ class GzParamGenerator(ParamGenerator):
             platform_param.generate_parameters(use_sim_time=True)
             platform_param.generate_parameter_file()
         if PLATFORMS[self.clearpath_config.get_platform_model()]['imu']:
+            os.makedirs(self.sensors_params_path, exist_ok=True)
             sensor_param = SensorParam(
                 BaseIMU(idx=0),
                 self.clearpath_config.get_namespace(),
@@ -80,6 +87,7 @@ class GzParamGenerator(ParamGenerator):
             )
             sensor_param.generate_config()
         if PLATFORMS[self.clearpath_config.get_platform_model()]['gps']:
+            os.makedirs(self.sensors_params_path, exist_ok=True)
             sensor_param = SensorParam(
                 Garmin18x(idx=0),
                 self.clearpath_config.get_namespace(),
