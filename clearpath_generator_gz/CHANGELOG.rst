@@ -2,6 +2,16 @@
 Changelog for package clearpath_generator_gz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Feature: Generator Sample Tests (`#107 <https://github.com/clearpathrobotics/clearpath_simulator/issues/107>`_)
+  * Add generic platform to look up table
+  * Add generator tests to CI
+  * Create sensor directory only if sensors are present
+  * Only run base CI if PR
+  * Add generator tests to README
+* Contributors: luis-camero
+
 2.9.0 (2026-02-11)
 ------------------
 * Update cmake version to 3.20 (`#100 <https://github.com/clearpathrobotics/clearpath_simulator/issues/100>`_)

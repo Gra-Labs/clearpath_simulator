@@ -2,6 +2,18 @@
 Changelog for package clearpath_gz
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix: robot_spawn.launch.py fails with generate:=false (`#110 <https://github.com/clearpathrobotics/clearpath_simulator/issues/110>`_)
+  * Fix: robot_spawn.launch.py fails with generate:=false
+  Use UnlessCondition with the launch configuration directly instead of
+  bool() on the perform()ed string (which is always truthy for non-empty
+  strings, including 'false'). This restores the Humble behaviour where
+  generate:=false correctly spawns the robot without regenerating files.
+  Fixes `#91 <https://github.com/clearpathrobotics/clearpath_simulator/issues/91>`_
+  * Wrap generate actions in GroupAction to mirror humble structure
+* Contributors: Tony Baltovski
+
 2.9.0 (2026-02-11)
 ------------------
 * Update cmake version to 3.20 (`#100 <https://github.com/clearpathrobotics/clearpath_simulator/issues/100>`_)
