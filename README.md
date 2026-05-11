@@ -1,6 +1,6 @@
 # clearpath_simulator - ROS 2 Humble Edition
 
-> **⚠️ This repository requires ROS 2 Humble** — A specialized fork of [clearpathrobotics/clearpath_simulator](https://github.com/clearpathrobotics/clearpath_simulator/tree/humble) with integrated AWS RoboMaker world support for Gazebo simulation.
+This repository is a specialized fork of [clearpathrobotics/clearpath_simulator](https://github.com/clearpathrobotics/clearpath_simulator/tree/humble) with integrated AWS RoboMaker world support for Gazebo simulation. This repository requires ROS 2 Humble.
 
 ## Overview
 
@@ -106,7 +106,7 @@ ros2 launch clearpath_gz simulation.launch.py world:=hospital
 
 ---
 
-## 🗺️ SLAM & Mapping
+## SLAM & Mapping
 
 ### Cartographer 3D SLAM
 
@@ -134,7 +134,7 @@ ros2 launch src/clearpath_3d_localization.launch.py use_sim_time:=true load_stat
 
 ---
 
-## 💾 Saving & Loading Maps
+## Saving & Loading Maps
 
 ### Save 2D Map (for Navigation)
 
@@ -171,7 +171,7 @@ ros2 launch src/clearpath_3d.launch.py use_sim_time:=true load_state_filename:=/
 
 ---
 
-## 📍 Robot Localization
+## Robot Localization
 
 The robot runs in the `j100_0000` namespace. Use these commands to query its position:
 
@@ -189,7 +189,7 @@ ros2 run tf2_ros tf2_echo odom base_link --ros-args -r /tf:=/j100_0000/tf -r /tf
 
 ---
 
-## 🚀 Automation Scripts
+## Automation Scripts
 
 ### Finish & Save Map
 
@@ -211,7 +211,7 @@ bash src/clearpath_simulator/install_aws_worlds.sh
 
 ---
 
-## 📂 Workspace Structure
+## Workspace Structure
 
 After full setup, your workspace should look like this:
 
@@ -231,7 +231,7 @@ After full setup, your workspace should look like this:
 
 ---
 
-## 🛠️ Advanced Configuration
+## Advanced Configuration
 
 ### Launch File Configuration
 
