@@ -1,0 +1,46 @@
+DETAILED GUIDE: INTEGRATING AWS SMALL WAREHOUSE WORLD INTO CLEARPATH SIMULATOR
+
+This guide provides the complete sequence of operations to install, configure, and run the AWS RoboMaker Small Warehouse World within the Clearpath Gazebo Sim environment.
+
+1. INITIAL REPOSITORY SETUP
+---------------------------
+Navigate to the root of the ROS2 workspace and clone the repository:
+$ cd ~/clearpath_ws
+$ git clone -b ros2 https://github.com/aws-robotics/aws-robomaker-small-warehouse-world.git src/aws-robomaker-small-warehouse-world
+
+2. MODEL PREPARATION & FIXES
+----------------------------
+Unlike the hospital world, most models are included in the repository. However, they require optimization for Gazebo Sim (Ignition).
+
+A. Update Model URIs:
+Convert internal model references to use the model:// URI scheme:
+$ find src/aws-robomaker-small-warehouse-world/models -name "model.sdf" -exec sed -i 's|file://models/|model://|g' {} +
+
+B. Fix Invalid Inertias:
+Gazebo Sim is strict about inertia matrices for static objects. Remove inertia blocks from all static models in the package to prevent loading errors.
+
+3. WORLD CONVERSION (.world to .sdf)
+------------------------------------
+Convert the original .world file to Gazebo Sim compatible .sdf format.
+
+A. Create src/clearpath_simulator/clearpath_gz/worlds/small_warehouse.sdf.
+B. Include the standard Gazebo Sim plugins (Physics, UserCommands, SceneBroadcaster, Sensors, Imu, NavSat).
+C. Add <spherical_coordinates> for NavSat compatibility.
+D. Set the Sun URI to the standard Fuel location.
+
+4. LAUNCH CONFIGURATION UPDATES
+-------------------------------
+Edit src/clearpath_simulator/clearpath_gz/launch/gz_sim.launch.py to include the warehouse resource paths:
+- The package root: src/aws-robomaker-small-warehouse-world
+- The models directory: src/aws-robomaker-small-warehouse-world/models
+
+5. BUILDING
+-----------
+Build the workspace to register the new package and paths:
+$ colcon build --packages-select clearpath_gz aws_robomaker_small_warehouse_world --symlink-install --allow-overriding clearpath_gz
+
+6. RUNNING THE SIMULATION
+-------------------------
+Source the workspace and launch:
+$ source install/setup.bash
+$ ros2 launch clearpath_gz simulation.launch.py world:=small_warehouse

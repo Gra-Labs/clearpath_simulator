@@ -1,0 +1,28 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+*.egg-info/
+dist/
+.pytest_cache/
+.vscode/
+.idea/
+
+# Generated files
+*.pyc
+__pycache__/
+*.so
+*.o
+*.a
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Graphviz files
+*.gv
+*.pdf
+
+# Build-specific
+*.ament_cmake
+devel/

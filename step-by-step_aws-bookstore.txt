@@ -1,0 +1,47 @@
+DETAILED GUIDE: INTEGRATING AWS BOOKSTORE WORLD INTO CLEARPATH SIMULATOR
+
+This guide provides the complete sequence of operations to install, configure, and run the AWS RoboMaker Bookstore World within the Clearpath Gazebo Sim environment.
+
+1. INITIAL REPOSITORY SETUP
+---------------------------
+Navigate to the root of the ROS2 workspace and clone the repository:
+$ cd ~/clearpath_ws
+$ git clone -b ros2 https://github.com/aws-robotics/aws-robomaker-bookstore-world.git src/aws-robomaker-bookstore-world
+
+2. MODEL PREPARATION & FIXES
+----------------------------
+A. Update Model URIs:
+Convert internal model references to use the model:// URI scheme:
+$ find src/aws-robomaker-bookstore-world/models -name "model.sdf" -exec sed -i 's|file://models/|model://|g' {} +
+
+B. Fix Invalid Inertias:
+Remove inertia blocks from all static models in the package to prevent loading errors.
+
+C. Fix Case-Sensitivity Issues:
+AWS models often have case mismatches between the SDF URI and the actual filename on disk (e.g., 'spotlight' vs 'Spotlight'). Ensure all URIs exactly match the filenames in the 'meshes' directories.
+
+3. WORLD CONVERSION (.world to .sdf)
+------------------------------------
+Convert the original .world file to Gazebo Sim compatible .sdf format.
+
+A. Create src/clearpath_simulator/clearpath_gz/worlds/bookstore.sdf.
+B. Include the standard Gazebo Sim plugins (Physics, UserCommands, SceneBroadcaster, Sensors, Imu, NavSat).
+C. Add <spherical_coordinates> for NavSat compatibility.
+D. Set the Sun URI to the standard Fuel location.
+
+4. LAUNCH CONFIGURATION UPDATES
+-------------------------------
+Edit src/clearpath_simulator/clearpath_gz/launch/gz_sim.launch.py to include the bookstore resource paths:
+- The package root: src/aws-robomaker-bookstore-world
+- The models directory: src/aws-robomaker-bookstore-world/models
+
+5. BUILDING
+-----------
+Build the workspace to register the new package and paths:
+$ colcon build --packages-select clearpath_gz aws_robomaker_bookstore_world --symlink-install --allow-overriding clearpath_gz
+
+6. RUNNING THE SIMULATION
+-------------------------
+Source the workspace and launch:
+$ source install/setup.bash
+$ ros2 launch clearpath_gz simulation.launch.py world:=bookstore

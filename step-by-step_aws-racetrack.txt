@@ -1,0 +1,41 @@
+DETAILED GUIDE: INTEGRATING AWS RACETRACK WORLD INTO CLEARPATH SIMULATOR
+
+This guide provides the complete sequence of operations to install, configure, and run the AWS RoboMaker Racetrack World within the Clearpath Gazebo Sim environment.
+
+1. INITIAL REPOSITORY SETUP
+---------------------------
+Navigate to the root of the ROS2 workspace and clone the repository:
+$ cd ~/clearpath_ws
+$ git clone -b ros2 https://github.com/aws-robotics/aws-robomaker-racetrack-world.git src/aws-robomaker-racetrack-world
+
+2. MODEL PREPARATION & FIXES
+----------------------------
+A. Update Model URIs:
+Convert internal model references to use the model:// URI scheme:
+$ find src/aws-robomaker-racetrack-world/models -name "model.sdf" -exec sed -i 's|file://models/|model://|g' {} +
+
+B. Fix Invalid Inertias:
+Remove inertia blocks from all static models in the package to prevent loading errors in Gazebo Sim.
+
+3. WORLD CONVERSION (.world to .sdf)
+------------------------------------
+Convert the original .world file to Gazebo Sim compatible .sdf format in src/clearpath_simulator/clearpath_gz/worlds/racetrack.sdf. 
+- IMPORTANT: The Racetrack world usually includes its own sun and lighting definitions. Avoid adding a duplicate sun include during conversion.
+- Include standard plugins and spherical coordinates for GPS support.
+
+4. LAUNCH CONFIGURATION UPDATES
+-------------------------------
+Edit src/clearpath_simulator/clearpath_gz/launch/gz_sim.launch.py to include the racetrack resource paths:
+- The package root: src/aws-robomaker-racetrack-world
+- The models directory: src/aws-robomaker-racetrack-world/models
+
+5. BUILDING
+-----------
+Build the workspace:
+$ colcon build --packages-select clearpath_gz aws_robomaker_racetrack_world --symlink-install --allow-overriding clearpath_gz
+
+6. RUNNING THE SIMULATION
+-------------------------
+Source the workspace and launch:
+$ source install/setup.bash
+$ ros2 launch clearpath_gz simulation.launch.py world:=racetrack
